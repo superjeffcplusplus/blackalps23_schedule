@@ -1,17 +1,30 @@
 import './style.css'
-import { loadEventData, updateEvents } from './src/schedule';
+import { loadJSON, updateChrono, updateEvents } from './src/schedule';
 
 
 
 async function main() {
 
   // For testing only
-  const testing = true;
-  const refDate = new Date("2023-11-02 11:02");
+  let testing = false;
+  let rate = 1; // x faster than real time
+  let refTime = new Date();
 
   const dataFile = './eventsData.json';
+  const configFile = './config.json';
 
-  const eventsData = await loadEventData(dataFile);
+  const configData = await loadJSON(configFile);
+  let eventsData = await loadJSON(dataFile);
+  eventsData = eventsData.data;
+  const showTime = configData.show_time;
+
+  if (configData.mode === 'test') {
+    console.log('Testing mode activated');
+    testing = true;
+    refTime = new Date(configData.mock_date);
+    rate = configData.test_rate;
+    console.log(`Test date: ${refTime}`);
+  }
 
   // Add a timestamp to each event for easier comparison
   eventsData.forEach(element => {
@@ -26,17 +39,30 @@ async function main() {
     element.schedule.sort((a, b) => a.start_stamp - b.start_stamp);
   });
 
-  console.log(eventsData);
 
-  updateEvents(eventsData, refDate, testing);
 
-  setInterval(() => updateEvents(eventsData, refDate, testing), 1000  * 60);  // Mise à jour toutes les minutes
+  updateEvents(eventsData, refTime);
+  if (showTime === true)
+    updateChrono(refTime);
+
+  console.log(rate);
+  setInterval(() => {
+
+    if (testing === true) {
+      refTime = new Date(refTime.getTime() + 1000 * 60);
+    } else {
+      refTime = new Date();
+    }
+    
+    if (showTime === true) {
+      updateChrono(refTime);
+    }
+
+    updateEvents(eventsData, refTime);
+
+  }, 1000 * 60 / rate);  // Mise à jour toutes les minutes
 
 
 }
 
 main();
-
-
-
-//updateEvents();  // Appel initial

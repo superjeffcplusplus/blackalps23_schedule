@@ -4,43 +4,46 @@ import { areSameDay } from "./utils";
  * This function is used to load the data from the JSON file.
  * @returns {Promise} A promise that resolves with the data from the JSON file.
  */
-export async function loadEventData(dataFile) {
+export async function loadJSON(dataFile) {
   return fetch(dataFile)
     .then(response => {
       if (!response.ok) {
-        throw new Error('Network');
+        throw new Error('Network error');
       }
       return response.json();
-    })
-    .then(data => {
-      return data.data;
     })
     .catch(error => {
       console.error("Il y a eu un problème lors de la récupération du fichier JSON", error);
     });
 }
 
+export function updateChrono(refTime) {
+  const formatter = new Intl.DateTimeFormat('fr-FR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+  const formattedDate = formatter.format(refTime);
+  let chrono = document.querySelector('.chrono');
+  chrono.innerText = "";
+  chrono.innerText = formattedDate;
+}
+
 /**
  * This function is used to update the events displayed on the screen.
  * @param {Object} eventsData The data from the JSON file.
- * @param {Date} refDate The reference date to use for testing.
+ * @param {Date} refTime The reference date to use for testing.
  * @param {boolean} testing A boolean to indicate if we are in testing mode.
  */
-export function updateEvents(eventsData, refDate, testing = false) {
+export function updateEvents(eventsData, refTime) {
 
   if (eventsData.length === 0) {
     return;
   }
 
-  // Récupérer l'heure actuelle
-  let now = null;
-  if (testing) {
-    now = refDate;
-  } else {
-    now = new Date();
-  }
-
-  let currentTime = now.getTime(); // in ms
+  let currentTime = refTime.getTime(); // in ms
 
   let todayEvents = null;
   let todayStr = null;
@@ -51,7 +54,7 @@ export function updateEvents(eventsData, refDate, testing = false) {
   const remainingEvents = [];
 
   for (const e of eventsData) {
-    if (areSameDay(now, new Date(e.date))) {
+    if (areSameDay(refTime, new Date(e.date))) {
       todayStr = e.date;
       todayEvents = e.schedule;
     }
@@ -85,6 +88,11 @@ export function updateEvents(eventsData, refDate, testing = false) {
   currentDomElem.querySelector('.event').innerText = "";
   currentDomElem.querySelector('.schedule').innerText = "";
   currentDomElem.querySelector('.speakers').innerText = "";
+
+  if (currentEvent === null) {
+    return;
+  }
+
   currentDomElem.querySelector('.event').innerText = currentEvent ? currentEvent.title : "";
   currentDomElem.querySelector('.schedule').innerText = currentEvent ? `${currentEvent.time.start} - ${currentEvent.time.end}` : "";
   if (currentEvent.speakers) {
@@ -101,6 +109,11 @@ export function updateEvents(eventsData, refDate, testing = false) {
   nextDomElem.querySelector('.event').innerText = "";
   nextDomElem.querySelector('.schedule').innerText = "";
   nextDomElem.querySelector('.speakers').innerText = "";
+
+  if (nextEvent === null) {
+    return;
+  }
+
   nextDomElem.querySelector('.event').innerText = nextEvent ? nextEvent.title : "";
   nextDomElem.querySelector('.schedule').innerText = nextEvent ? `${nextEvent.time.start} - ${nextEvent.time.end}` : "";
   if (nextEvent.speakers) {
