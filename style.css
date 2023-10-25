@@ -1,0 +1,105 @@
+:root {
+  font-size: 90%;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  /* background: linear-gradient(135deg, #83a4d4, #b6fbff); */
+  display: grid;
+  grid-template: "main sidebar" 100% / 2fr 1fr;
+  height: 100vh;
+  color: white;
+}
+
+.bg-img {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  z-index: -1;
+}
+
+.logo {
+  width: 40rem;
+  margin: 4rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.main {
+  grid-area: main;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-content: start;
+  grid-gap: 4rem;
+  padding: 5rem 2rem;
+}
+
+.sidebar {
+  overflow: hidden;
+  grid-area: sidebar;
+  align-self: center;
+  padding: 0 2rem;
+  height: 86%;
+  color: rgba(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+}
+
+.remaining {
+  overflow: hidden;
+  font-size: 1.7rem;
+}
+
+.remaining .schedule {
+  font-weight: 800;
+}
+
+.remaining .event {
+  margin: 2rem 0;
+}
+
+.current, .next {
+  padding: 2rem;
+  background: #ffffff27;
+  border-radius: 1rem;
+  max-width: 90rem;
+  width: 90%;
+  transition: all 0.3s;
+}
+
+h2 {
+  font-size: 2.7rem;
+  margin-bottom: 1.5rem;
+  margin-top: 0;
+  border-bottom: .3rem solid #b6bac2;
+  display: inline-block;
+}
+
+h3 {
+  font-size: 2.4rem;
+  margin: 0;
+}
+
+h3.event {
+  font-size: 2.4rem;
+  margin: 0;
+}
+
+.speakers {
+  font-size: 1.5rem;
+  margin-top: .5rem;
+  opacity: 0.7; /* Faint appearance to differentiate from title */
+}
+
+.main .schedule {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 2.4rem;
+  opacity: 0.7; /* Faint appearance to differentiate from title */
+}
+
