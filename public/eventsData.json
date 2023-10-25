@@ -1,4 +1,5 @@
 {
+  "$schema": "./schema.json",
   "data": [
     {
       "date": "2023-11-02",
@@ -8,17 +9,14 @@
             "start": "08:30",
             "end": "09:00"
           },
-          "title": "Welcome and coffee",
-          "type": "break"
+          "title": "Welcome and coffee"
         },
         {
           "time": {
             "start": "09:00",
             "end": "09:15"
           },
-          "type": "conf",
           "title": "Opening words",
-          "id": "opening",
           "speakers": [
             {
               "name": "Sylvain Pasini",
@@ -31,9 +29,7 @@
             "start": "09:15",
             "end": "09:45"
           },
-          "type": "keynote",
           "title": "Unveiling the Express Lane to Catastrophe: Insights from Extensive Security Testing",
-          "id": "K01",
           "speakers": [
             {
               "name": "Florian Badertscher",
@@ -46,9 +42,7 @@
             "start": "09:45",
             "end": "10:30"
           },
-          "type": "conf",
           "title": "Needles in the Haystack: A Heuristics-based Approach to Vulnerability Discovery",
-          "id": "01",
           "speakers": [
             {
               "name": "Matt Hand",
@@ -65,7 +59,6 @@
             "start": "10:30",
             "end": "11:00"
           },
-          "type": "break",
           "title": "Coffee break"
         },
         {
@@ -73,9 +66,7 @@
             "start": "11:00",
             "end": "11:45"
           },
-          "type": "conf",
           "title": "YouShallNotPass! Hardening CI/CD pipelines on mission critical environments",
-          "id": "02",
           "speakers": [
             {
               "name": "Pierre Dumont",
@@ -92,9 +83,7 @@
             "start": "11:45",
             "end": "12:30"
           },
-          "type": "conf",
           "title": "XORtigate: zero-effort, zero-expense, 0-day on Fortinet SSL VPN",
-          "id": "03",
           "speakers": [
             {
               "name": "Charles Fol",
@@ -107,7 +96,6 @@
             "start": "12:30",
             "end": "14:15"
           },
-          "type": "lunch",
           "title": "Lunch"
         },
         {
@@ -115,9 +103,7 @@
             "start": "14:15",
             "end": "15:00"
           },
-          "type": "conf",
           "title": "Ghidriff: Ghidra Binary Diffing Engine",
-          "id": "04",
           "speakers": [
             {
               "name": "John Mac",
@@ -130,9 +116,7 @@
             "start": "15:00",
             "end": "15:45"
           },
-          "type": "conf",
           "title": "Quantum Computing Doomsday Planning: Is Your Organisation Ready?",
-          "id": "05",
           "speakers": [
             {
               "name": "JP Aumasson",
@@ -149,7 +133,6 @@
             "start": "15:45",
             "end": "16:15"
           },
-          "type": "break",
           "title": "Coffee break"
         },
         {
@@ -157,9 +140,7 @@
             "start": "16:15",
             "end": "17:00"
           },
-          "type": "conf",
           "title": "Sideloading Serenade: A Symphony of .NET Payload Techniques",
-          "id": "06",
           "speakers": [
             {
               "name": "Nick Powers",
@@ -176,9 +157,7 @@
             "start": "17:00",
             "end": "17:45"
           },
-          "type": "conf",
           "title": "Caviar Scammers: The Sophisticated Operations of the SturgeonPhisher APT Group",
-          "id": "07",
           "speakers": [
             {
               "name": "Damien Schaeffer",
@@ -191,7 +170,6 @@
             "start": "17:45",
             "end": "18:15"
           },
-          "type": "travel",
           "title": "Travel",
           "details": "17:50, bus departure from La Marive to Salle des Quais"
         },
@@ -200,14 +178,15 @@
             "start": "18:00",
             "end": "23:30"
           },
-          "type": "evening",
           "title": "Networking dinner",
           "details": "Salle des quais (Grandson) - Mandatory registration - Aperitif at 18:00, Dinner at 19:15"
         },
         {
-          "time": "",
-          "type": "travel",
-          "details": "23:30 - Bus departure from Salle des Quais to Yverdon train station, La Marive, and Grand Hotel des Bains"
+          "time": {
+            "start": "23:30",
+            "end": "23:59"
+          },
+          "title": "23:30 - Bus departure from Salle des Quais to Yverdon train station, La Marive, and Grand Hotel des Bains"
         }
       ]
     },
@@ -219,7 +198,6 @@
             "start": "08:30",
             "end": "09:00"
           },
-          "type": "Break",
           "title": "Welcome and coffee"
         },
         {
@@ -227,7 +205,6 @@
             "start": "09:00",
             "end": "09:15"
           },
-          "type": "Opening",
           "title": "Opening words"
         },
         {
@@ -235,7 +212,6 @@
             "start": "09:15",
             "end": "09:45"
           },
-          "type": "Keynote",
           "title": "Unleash the engineer within: Culture eats policy for breakfast",
           "speakers": [
             {
@@ -249,7 +225,6 @@
             "start": "09:45",
             "end": "10:30"
           },
-          "type": "Conference",
           "title": "Unraveling the Challenges of Reverse Engineering Flutter Applications",
           "speakers": [
             {
@@ -263,7 +238,6 @@
             "start": "10:30",
             "end": "11:00"
           },
-          "type": "Break",
           "title": "Coffee break"
         },
         {
@@ -271,7 +245,6 @@
             "start": "11:00",
             "end": "11:45"
           },
-          "type": "Conference",
           "title": "A Security Research Journey: how the mobile industry met hackers in the middle",
           "speakers": [
             {
@@ -285,7 +258,6 @@
             "start": "11:45",
             "end": "12:30"
           },
-          "type": "Conference",
           "title": "Command-line Obfuscation Detection Using Large Language Models",
           "speakers": [
             {
@@ -303,7 +275,6 @@
             "start": "12:30",
             "end": "14:45"
           },
-          "type": "Break",
           "title": "Lunch"
         },
         {
@@ -311,8 +282,7 @@
             "start": "14:15",
             "end": "15:00"
           },
-          "type": "Conference",
-          "title": "Cyber incident reportings : common obligations within organisations",
+          "title": "Cyber incident reportings : common obligations within organisations",
           "speakers": [
             {
               "name": "Pauline Meyer",
@@ -329,7 +299,6 @@
             "start": "15:00",
             "end": "15:45"
           },
-          "type": "Conference",
           "title": "Defeating VPN Always-On",
           "speakers": [
             {
@@ -343,12 +312,13 @@
             "start": "15:45",
             "end": "16:15"
           },
-          "type": "Break",
           "title": "Coffee break"
         },
         {
-          "time": "16:15 - 17:00",
-          "type": "Conference",
+          "time": {
+            "start": "16:15",
+            "end": "17:00"
+          },
           "title": "Infiltrating Kubernetes: A Comprehensive Study of Attack Scenarios and Security Measures",
           "speakers": [
             {
@@ -362,11 +332,11 @@
             "start": "17:00",
             "end": "17:45"
           },
-          "type": "Session",
           "title": "Rump session",
           "speakers": [
             {
-              "name": "Several speakers"
+              "name": "Several speakers",
+              "affiliation": "Several affiliations"
             }
           ]
         },
@@ -383,7 +353,6 @@
             "start": "19:00",
             "end": "23:00"
           },
-          "type": "dinner",
           "title": "Black Alps CTF and Black Alps Dinner",
           "location": "La Marive",
           "note": "Free for all Black Alps participants"
