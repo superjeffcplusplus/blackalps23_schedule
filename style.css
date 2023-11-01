@@ -2,17 +2,18 @@
   font-size: 60%;
 }
 
+@media screen and (min-width: 1281px) {
+  :root {
+    font-size: 90%;
+  }
+}
+
 @media screen and (min-width: 1921px) {
   :root {
     font-size: 180%;
   }
 }
 
-@media screen and (min-width: 1281px) {
-  :root {
-    font-size: 90%;
-  }
-}
 
 body {
   font-family: 'Roboto', sans-serif;
