@@ -2,6 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "properties": {
+    "$schema": {
+      "type": "string"
+    },
     "data": {
       "type": "array",
       "items": {
@@ -28,7 +31,12 @@
                       "pattern": "^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$"
                     }
                   },
-                  "required": ["start", "end"]
+                  "required": ["start", "end"],
+                  "additionalProperties": false
+                },
+                "type": {
+                  "type": "string",
+                  "pattern": "^other|talk|keynote|break|opening$"
                 },
                 "title": {
                   "type": "string"
@@ -45,17 +53,24 @@
                         "type": "string"
                       }
                     },
-                    "required": ["name", "affiliation"]
+                    "required": ["name", "affiliation"],
+                    "additionalProperties": false
                   }
+                },
+                "details": {
+                  "type": "string"
                 }
               },
-              "required": ["time", "title"]
+              "required": ["time", "title", "type"],
+              "additionalProperties": false
             }
           }
         },
-        "required": ["date", "schedule"]
+        "required": ["date", "schedule"],
+        "additionalProperties": false
       }
     }
   },
-  "required": ["data"]
+  "required": ["data"],
+  "additionalProperties": false
 }
