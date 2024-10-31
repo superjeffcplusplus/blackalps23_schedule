@@ -1,0 +1,130 @@
+- name: Pi Packages installation
+  hosts: lan
+  remote_user: pi
+  become: yes
+  tasks:
+  - name: Ensure the OS is up to date
+    ansible.builtin.apt:
+      name: "*"
+      state: latest
+  - name: Install Graphical UI
+    ansible.builtin.apt:
+      name:
+        - xserver-xorg
+        - x11-xserver-utils
+        - xinit
+        - openbox
+        - firefox-esr
+      state: present
+      update_cache: yes
+      install_recommends: no
+  - name: Install Nginx
+    ansible.builtin.apt:
+      name:
+        - nginx
+      state: present
+
+
+- name: Copy Schedule-App files
+  hosts: lan
+  become: yes
+  tasks:
+    # - name: Delete default index
+    #   ansible.builtin.file:
+    #     path: /var/www/html/index*
+    #     state: absent
+    - name: Copy files
+      ansible.builtin.synchronize:
+        src: ./../dist/
+        dest: /var/www/html
+        delete: yes
+    - name: Change owner
+      ansible.builtin.file:
+        path: /var/www/html
+        owner: www-data
+        group: www-data
+        state: directory
+
+- name: Set up non-admin user
+  hosts: lan
+  become: yes  # Use sudo for user creation
+  tasks:
+    - name: Create a non-admin user
+      ansible.builtin.user:
+        name: user1  # Replace with desired username
+        shell: /bin/bash
+        state: present
+        create_home: yes
+        password: "{{ 'password' | password_hash('sha512') }}"  # Use a secure password
+
+    
+- name: Configure Openbox
+  hosts: lan
+  become: yes
+  tasks:
+    - name: Create Openbox config directory
+      ansible.builtin.file:
+        path: "/home/user1/.config/openbox"
+        state: directory
+        mode: '0750'
+        owner: user1
+        group: user1
+
+    - name: Copy Openbox autostart configuration
+      ansible.builtin.copy:
+        src: "./../scripts/config_files/openbox_autostart.conf"  # Update this path
+        dest: "/home/user1/.config/openbox/autostart"
+        mode: '0640'
+        owner: user1
+        group: user1
+
+    - name: Ensure .bash_profile exists
+      ansible.builtin.file:
+        path: "/home/user1/.bash_profile"
+        mode: '0640'
+        state: touch
+        owner: user1
+        group: user1
+
+    - name: Configure startx autostart on login
+      ansible.builtin.lineinfile:
+        path: "/home/user1/.bash_profile"
+        line: "[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && startx -- -nocursor"
+        state: present
+        owner: user1
+        group: user1
+
+
+- name: Autolingin config
+  hosts: lan
+  become: yes
+  tasks:
+    - name: Edit logind.conf
+      ansible.builtin.lineinfile:
+        path: /etc/systemd/logind.conf
+        line: NAutoVTs=1
+        state: present
+
+    - name: Create a systemd override for getty@tty1.service
+      copy:
+        content: |
+          [Service]
+          ExecStart=
+          ExecStart=-/usr/sbin/agetty --autologin user1 --noclear %I $TERM
+        dest: /etc/systemd/system/getty@tty1.service.d/override.conf
+        owner: root
+        group: root
+        mode: '0644'
+      notify:
+        - Reload systemd
+        - Restart getty@tty1.service
+
+  handlers:
+  - name: Reload systemd
+    ansible.builtin.systemd:
+      daemon_reload: yes
+
+  - name: Restart getty@tty1.service
+    systemd:
+      name: getty@tty1.service
+      state: restarted
