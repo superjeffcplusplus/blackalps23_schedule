@@ -1,18 +1,25 @@
 import fs from 'fs';
 import util from "util";
+import path from 'path';
+import Ajv from 'ajv';
+
+const SCRIPT_FOLDER = "php-data";
 
 const DAYS = ['2024-11-06', '2024-11-07'];
+const destFolder = "public";
+const destFile = "eventsData.json";
+const schemaPath = path.join(SCRIPT_FOLDER, "schema.json");
+const schema = JSON.parse(fs.readFileSync(schemaPath));
 
 function print(object) {
     console.log(util.inspect(object, false, null, true));
 }
 
-
-const rdataPath = 'data.json'
+const rdataPath = path.join(SCRIPT_FOLDER, 'data.json');
 const rdata = fs.readFileSync(rdataPath, 'utf8');
-const data = JSON.parse(rdata)
+const data = JSON.parse(rdata);
 
-const templatePath = "schedule-template.json"
+const templatePath = path.join(SCRIPT_FOLDER,"schedule-template.json");
 const template = JSON.parse(fs.readFileSync(templatePath, 'utf8')).data;
 
 DAYS.forEach((date, i) => {
@@ -68,9 +75,24 @@ template.forEach((day, i) => {
     });
 });
 
+
+
 const dataExport = {
-    $schema: "./schema.json",
     data: template,
 }
 
-fs.writeFileSync("data-export.json", JSON.stringify(dataExport));
+const ajv = new Ajv()
+ajv.addFormat("date", {
+    validate: (date) => {
+        const regex = /^\d{4}-\d{2}-\d{2}$/; // YYYY-MM-DD
+        return regex.test(date) && !isNaN(new Date(date).getTime()); 
+    },
+});
+const validator = ajv.compile(schema)
+const valid = validator(dataExport);
+
+if (valid) {
+    fs.writeFileSync(path.join(destFolder, destFile), JSON.stringify(dataExport));
+} else {
+    console.error("Malformed data after formatting.");
+}
