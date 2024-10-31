@@ -1,9 +1,7 @@
 import fs from 'fs';
-import { exit } from 'process';
 import util from "util";
 
 const DAYS = ['2024-11-06', '2024-11-07'];
-const NB_TALK_PER_DAY = 7;
 
 function print(object) {
     console.log(util.inspect(object, false, null, true));
